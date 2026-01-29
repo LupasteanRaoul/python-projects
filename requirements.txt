@@ -1,0 +1,12 @@
+# Python Projects Portfolio - Dependencies
+
+# Required for quicksort-visualizer
+matplotlib>=3.5.0
+
+# Development tools (optional)
+pytest>=7.0.0
+black>=22.0.0
+flake8>=4.0.0
+
+# Installation:
+# pip install -r requirements.txt
