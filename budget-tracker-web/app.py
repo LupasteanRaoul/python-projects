@@ -10,35 +10,45 @@ tracker = BudgetTracker()
 @app.route('/')
 def home():
     """Pagina principală"""
-    stats = tracker.get_stats()
-    recent_transactions = tracker.transactions[-10:] if tracker.transactions else []
+    transactions = load_data()
+    
+    # Calculează statistici
+    income = sum(t['amount'] for t in transactions if t['type'] == 'income')
+    expenses = sum(t['amount'] for t in transactions if t['type'] == 'expense')
+    balance = income - expenses
+    
+    # Ultimele 10 tranzacții (cele mai noi întâi)
+    recent = transactions[-10:][::-1] if transactions else []
+    
+    # Sumar lunar (simplificat)
+    from datetime import datetime
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    
+    monthly_transactions = [
+        t for t in transactions 
+        if datetime.strptime(t['date'], "%Y-%m-%d %H:%M:%S").month == current_month
+        and datetime.strptime(t['date'], "%Y-%m-%d %H:%M:%S").year == current_year
+    ]
+    
+    monthly_income = sum(t['amount'] for t in monthly_transactions if t['type'] == 'income')
+    monthly_expenses = sum(t['amount'] for t in monthly_transactions if t['type'] == 'expense')
+    monthly_balance = monthly_income - monthly_expenses
+    
+    monthly_summary = {
+        'income': monthly_income,
+        'expenses': monthly_expenses,
+        'balance': monthly_balance,
+        'transactions': len(monthly_transactions)
+    }
     
     return render_template('index.html',
-                         stats=stats,
-                         transactions=recent_transactions,
-                         categories=tracker.categories)
-
-@app.route('/add-transaction', methods=['POST'])
-def add_transaction():
-    """Adaugă o nouă tranzacție"""
-    try:
-        amount = float(request.form['amount'])
-        category = request.form['category']
-        description = request.form['description']
-        transaction_type = request.form['type']
-        
-        transaction = tracker.add_transaction(amount, category, description, transaction_type)
-        
-        return jsonify({
-            'success': True,
-            'message': 'Tranzacție adăugată!',
-            'transaction': {
-                'id': transaction.id,
-                'amount': transaction.amount,
-                'category': transaction.category,
-                'description': transaction.description,
-                'date': transaction.date,
-                'type': transaction.type.value
+                         transactions=recent,
+                         income=income,
+                         expenses=expenses,
+                         balance=balance,
+                         total=len(transactions),
+                         monthly_summary=monthly_summary)
             }
         })
     except Exception as e:
