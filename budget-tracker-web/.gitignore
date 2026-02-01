@@ -1,4 +1,5 @@
 __pycache__/
+<<<<<<< HEAD
 *.py[cod]
 *$py.class
 *.so
@@ -25,3 +26,10 @@ Thumbs.db
 
 # Environment
 .env
+=======
+*.pyc
+venv/
+.env
+*.log
+*.csv
+>>>>>>> f62f3bdc657729335315a20c3b6d4cd90ba9425c
