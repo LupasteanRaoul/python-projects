@@ -1,72 +1,75 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
-from budget_tracker import BudgetTracker
+from flask import Flask, render_template, request, jsonify
+import json
+from datetime import datetime
 import os
 
 app = Flask(__name__)
 
-# Initialize tracker
-tracker = BudgetTracker()
+DATA_FILE = "budget_data.json"
+
+def load_data():
+    try:
+        with open(DATA_FILE, 'r') as f:
+            return json.load(f)
+    except:
+        return []
+
+def save_data(data):
+    with open(DATA_FILE, 'w') as f:
+        json.dump(data, f, indent=2)
 
 @app.route('/')
 def home():
-    """Pagina principală"""
+    """Pagina principală simplă"""
     transactions = load_data()
     
-    # Calculează statistici
+    # Calculează sume
     income = sum(t['amount'] for t in transactions if t['type'] == 'income')
     expenses = sum(t['amount'] for t in transactions if t['type'] == 'expense')
     balance = income - expenses
     
-    # Ultimele 10 tranzacții (cele mai noi întâi)
+    # Ultimele 10 tranzacții
     recent = transactions[-10:][::-1] if transactions else []
     
-    # Sumar lunar (simplificat)
-    from datetime import datetime
-    current_month = datetime.now().month
-    current_year = datetime.now().year
-    
-    monthly_transactions = [
-        t for t in transactions 
-        if datetime.strptime(t['date'], "%Y-%m-%d %H:%M:%S").month == current_month
-        and datetime.strptime(t['date'], "%Y-%m-%d %H:%M:%S").year == current_year
-    ]
-    
-    monthly_income = sum(t['amount'] for t in monthly_transactions if t['type'] == 'income')
-    monthly_expenses = sum(t['amount'] for t in monthly_transactions if t['type'] == 'expense')
-    monthly_balance = monthly_income - monthly_expenses
-    
-    monthly_summary = {
-        'income': monthly_income,
-        'expenses': monthly_expenses,
-        'balance': monthly_balance,
-        'transactions': len(monthly_transactions)
-    }
-    
-    return render_template('index.html',
+    return render_template('simple_index.html',
                          transactions=recent,
                          income=income,
                          expenses=expenses,
                          balance=balance,
-                         total=len(transactions),
-                         monthly_summary=monthly_summary)
-            }
-        })
+                         total=len(transactions))
+
+@app.route('/add', methods=['POST'])
+def add():
+    """Adaugă tranzacție"""
+    try:
+        amount = float(request.form['amount'])
+        category = request.form['category']
+        description = request.form['description']
+        trans_type = request.form['type']
+        
+        new_transaction = {
+            'amount': amount,
+            'category': category,
+            'description': description,
+            'type': trans_type,
+            'date': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        
+        data = load_data()
+        data.append(new_transaction)
+        save_data(data)
+        
+        return jsonify({'success': True, 'message': 'Tranzacție adăugată!'})
+        
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
 @app.route('/transactions')
-def view_transactions():
-    """Pagina cu toate tranzacțiile"""
-    transactions = tracker.transactions
-    return render_template('transactions.html', transactions=transactions)
-
-@app.route('/api/delete/<transaction_id>', methods=['DELETE'])
-def delete_transaction(transaction_id):
-    """Șterge o tranzacție"""
-    if tracker.delete_transaction(transaction_id):
-        return jsonify({'success': True})
-    return jsonify({'error': 'Tranzacția nu există'}), 404
+def transactions():
+    """Toate tranzacțiile"""
+    data = load_data()
+    return render_template('simple_transactions.html', transactions=data[::-1])
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=False)
