@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Table Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-table"></i> Hash Table Visualizer</h1>
+            <p class="subtitle">Vizualizează și interacționează cu o tabelă hash în timp real</p>
+        </header>
+
+        <div class="main-content">
+            <div class="control-panel">
+                <div class="operations">
+                    <h2><i class="fas fa-cogs"></i> Operații</h2>
+                    
+                    <div class="operation-group">
+                        <h3>Inserare</h3>
+                        <div class="input-group">
+                            <input type="text" id="insert-key" placeholder="Cheie" class="input-key">
+                            <input type="text" id="insert-value" placeholder="Valoare" class="input-value">
+                            <button onclick="insertItem()" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Inserează
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="operation-group">
+                        <h3>Căutare</h3>
+                        <div class="input-group">
+                            <input type="text" id="search-key" placeholder="Cheie de căutat">
+                            <button onclick="searchItem()" class="btn btn-info">
+                                <i class="fas fa-search"></i> Caută
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="operation-group">
+                        <h3>Ștergere</h3>
+                        <div class="input-group">
+                            <input type="text" id="delete-key" placeholder="Cheie de șters">
+                            <button onclick="deleteItem()" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Șterge
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="operation-group">
+                        <h3>Acțiuni rapide</h3>
+                        <div class="quick-actions">
+                            <button onclick="loadSampleData()" class="btn btn-secondary">
+                                <i class="fas fa-database"></i> Date demo
+                            </button>
+                            <button onclick="clearTable()" class="btn btn-warning">
+                                <i class="fas fa-broom"></i> Curăță tabela
+                            </button>
+                            <button onclick="rehashTable()" class="btn btn-success">
+                                <i class="fas fa-redo"></i> Rehash
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <h2><i class="fas fa-chart-bar"></i> Statistici</h2>
+                    <div id="stats-container">
+                        <!-- Statisticile vor fi generate aici -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="visualization">
+                <h2><i class="fas fa-project-diagram"></i> Vizualizare Tabelă Hash</h2>
+                <div class="table-info">
+                    <span id="table-size"></span>
+                    <span id="table-count"></span>
+                    <span id="load-factor"></span>
+                </div>
+                <div id="hash-table-container">
+                    <!-- Tabela hash va fi generată aici -->
+                </div>
+            </div>
+
+            <div class="logs">
+                <h2><i class="fas fa-history"></i> Jurnal Operații</h2>
+                <div id="log-container">
+                    <div class="log-entry">Sistem inițializat. Apasă pe 'Date demo' pentru a începe.</div>
+                </div>
+                <button onclick="clearLogs()" class="btn btn-small">
+                    <i class="fas fa-trash-alt"></i> Curăță jurnalul
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Hash Table Visualizer &copy; 2024 | Implementare cu chainning</p>
+            <p class="footer-links">
+                <a href="#" onclick="showInfo()"><i class="fas fa-info-circle"></i> Despre</a> |
+                <a href="#" onclick="showInstructions()"><i class="fas fa-book"></i> Instrucțiuni</a> |
+                <a href="https://github.com/yourusername/hash-table-visualizer" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </p>
+        </footer>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="hash_table.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
