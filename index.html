@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Projects Portfolio | Lupastean Raoul</title>
+    <meta name="description" content="Professional Python development portfolio showcasing full-stack applications, algorithms, and interactive tools built with Flask, JavaScript, and modern web technologies.">
+    <meta name="author" content="Lupastean Raoul">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #171717;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --border: #27272a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 5rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 50px;
+            color: var(--accent-blue);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #262626;
+            transform: translateY(-2px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card:nth-child(1) .stat-number { color: var(--accent-blue); }
+        .stat-card:nth-child(2) .stat-number { color: var(--accent-purple); }
+        .stat-card:nth-child(3) .stat-number { color: var(--accent-green); }
+        .stat-card:nth-child(4) .stat-number { color: var(--accent-orange); }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section */
+        section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+
+        /* Filter Buttons */
+        .filter-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.625rem 1.5rem;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: #3f3f46;
+            transform: translateY(-5px);
+        }
+
+        .project-header {
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header.gradient-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .project-header.gradient-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .project-header.gradient-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .project-header.gradient-blue { background: linear-gradient(135deg, #0ea5e9, #0369a1); }
+        .project-header.gradient-amber { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .project-header.gradient-violet { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        .project-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 0.375rem 0.875rem;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            font-size: 0.875rem;
+        }
+
+        .live-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-green);
+            color: white;
+            padding: 0.375rem 0.875rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .project-body {
+            padding: 2rem;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.375rem 0.875rem;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border-radius: 50px;
+            font-size: 0.813rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .project-links .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .backend-note {
+            margin-top: 1rem;
+            padding: 0.875rem;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 10px;
+            color: #fbbf24;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+        }
+
+        /* Technologies Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .tech-card:hover {
+            border-color: #3f3f46;
+            transform: translateY(-5px);
+        }
+
+        .tech-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-icon {
+            font-size: 2.5rem;
+        }
+
+        .tech-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .tech-usage {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        .tech-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.75rem;
+        }
+
+        .tech-projects {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-name {
+            font-weight: 700;
+        }
+
+        .footer-role {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card,
+        .tech-card,
+        .stat-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">LR</div>
+                <span>Python Developer</span>
+            </div>
+            <div class="nav-links">
+                <a href="#projects">Projects</a>
+                <a href="#technologies">Technologies</a>
+                <a href="https://github.com/LupasteanRaoul/python-projects" target="_blank">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/raul-lupastean-a66705244/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="badge">Python Developer Portfolio</div>
+        <h1>Python Projects</h1>
+        <p>Learning and building with Python. These projects demonstrate practical applications of Python programming, web development, algorithms, and data structures.</p>
+        <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary">
+                View Projects
+                <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="https://github.com/LupasteanRaoul/python-projects" target="_blank" class="btn btn-secondary">
+                <i class="fab fa-github"></i>
+                GitHub Repository
+            </a>
+        </div>
+    </section>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Total Projects</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">8</div>
+            <div class="stat-label">Technologies</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-label">Live Deployments</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Open Source</div>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-header">
+            <h2>Featured Projects</h2>
+            <p>Explore the collection of Python and web development projects</p>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
+            <button class="filter-btn" onclick="filterProjects('flask')">Flask Web App</button>
+            <button class="filter-btn" onclick="filterProjects('tool')">Interactive Tool</button>
+            <button class="filter-btn" onclick="filterProjects('game')">Interactive Game</button>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Budget Tracker -->
+            <div class="project-card" data-category="flask">
+                <div class="project-header gradient-green">
+                    <div class="live-badge">
+                        <i class="fas fa-rocket"></i>
+                        LIVE
+                    </div>
+                    <div class="project-icon">💰</div>
+                    <div class="project-title">Budget Tracker Web</div>
+                    <div class="project-category">Flask Web App</div>
+                </div>
+                <div class="project-body">
+                    <p class="project-desc">Full-stack Flask application for personal finance management with real-time analytics, interactive charts, and comprehensive transaction tracking system.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Chart.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://budget-tracker-web.onrender.com" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-rocket"></i>
+                            Live Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/budget-tracker-web" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <div class="backend-note">
+                        <i class="fas fa-server"></i>
+                        <span>Flask backend required. Deployed on Render.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quicksort Visualizer -->
+            <div class="project-card" data-category="flask">
+                <div class="project-header gradient-orange">
+                    <div class="live-badge">
+                        <i class="fas fa-rocket"></i>
+                        LIVE
+                    </div>
+                    <div class="project-icon">⚡</div>
+                    <div class="project-title">Quicksort Visualizer</div>
+                    <div class="project-category">Flask Web App</div>
+                </div>
+                <div class="project-body">
+                    <p class="project-desc">Interactive Flask application for visualizing the Quicksort algorithm with step-by-step execution, real-time animation, and detailed performance metrics.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Algorithms</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://quicksort-visualizer.onrender.com" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-rocket"></i>
+                            Live Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/quicksort-visualizer" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                    <div class="backend-note">
+                        <i class="fas fa-server"></i>
+                        <span>Flask backend required. Deployed on Render.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hash Table Visualizer -->
+            <div class="project-card" data-category="tool">
+                <div class="project-header gradient-purple">
+                    <div class="project-icon">🗂️</div>
+                    <div class="project-title">Hash Table Visualizer</div>
+                    <div class="project-category">Interactive Tool</div>
+                </div>
+                <div class="project-body">
+                    <p class="project-desc">Interactive visualization of hash table data structure operations with chaining collision resolution, real-time updates, and comprehensive statistics.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">Data Structures</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="./hash-table/index.html" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i>
+                            View Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/hash-table" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISBN Validator -->
+            <div class="project-card" data-category="tool">
+                <div class="project-header gradient-blue">
+                    <div class="project-icon">📚</div>
+                    <div class="project-title">ISBN Validator</div>
+                    <div class="project-category">Interactive Tool</div>
+                </div>
+                <div class="project-body">
+                    <p class="project-desc">Comprehensive ISBN-10 and ISBN-13 validation tool with detailed verification algorithms, format checking, and step-by-step validation process.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">Validation</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="./isbn-validator/index.html" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i>
+                            View Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/isbn-validator" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Polygon Calculator -->
+            <div class="project-card" data-category="tool">
+                <div class="project-header gradient-amber">
+                    <div class="project-icon">📐</div>
+                    <div class="project-title">Polygon Calculator</div>
+                    <div class="project-category">Interactive Tool</div>
+                </div>
+                <div class="project-body">
+                    <p class="project-desc">Interactive geometric calculator with 2D visualization for computing polygon properties including area, perimeter, angles, and advanced geometric calculations.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">HTML5 Canvas</span>
+                        <span class="tech-tag">Geometry</span>
+                        <span class="tech-tag">Mathematics</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="./polygon-calculator/index.html" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i>
+                            View Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/polygon-calculator" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RPG Game -->
+            <div class="project-card" data-category="game">
+                <div class="project-header gradient-violet">
+                    <div class="project-icon">🗡️</div>
+                    <div class="project-title">RPG Game</div>
+                    <div class="project-category">Interactive Game</div>
+                </div>
+                <div class="project-body">
+                    <p class="project-desc">Interactive role-playing game with combat system, character progression, inventory management, and engaging storyline mechanics.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">Game Development</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="./rpg-game-final/index.html" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i>
+                            View Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/rpg-game-final" target="_blank" class="btn btn-secondary">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section id="technologies" style="background: linear-gradient(to bottom, transparent, rgba(26, 26, 26, 0.5));">
+        <div class="section-header">
+            <h2>Technology Stack</h2>
+            <p>Tools and technologies used across projects</p>
+        </div>
+
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fab fa-python tech-icon" style="color: #3776AB;"></i>
+                    <div>
+                        <div class="tech-name">Python</div>
+                        <div class="tech-usage" style="color: #3776AB;">100%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">Core programming language</div>
+                <div class="tech-projects">6 projects</div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fas fa-flask tech-icon" style="color: #000000;"></i>
+                    <div>
+                        <div class="tech-name">Flask</div>
+                        <div class="tech-usage" style="color: #666666;">33%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">Web framework for Python</div>
+                <div class="tech-projects">2 projects</div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fab fa-js-square tech-icon" style="color: #F7DF1E;"></i>
+                    <div>
+                        <div class="tech-name">JavaScript</div>
+                        <div class="tech-usage" style="color: #F7DF1E;">83%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">Frontend interactivity</div>
+                <div class="tech-projects">5 projects</div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fab fa-html5 tech-icon" style="color: #E34F26;"></i>
+                    <div>
+                        <div class="tech-name">HTML5</div>
+                        <div class="tech-usage" style="color: #E34F26;">100%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">Markup language</div>
+                <div class="tech-projects">6 projects</div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fab fa-css3-alt tech-icon" style="color: #1572B6;"></i>
+                    <div>
+                        <div class="tech-name">CSS3</div>
+                        <div class="tech-usage" style="color: #1572B6;">100%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">Styling and design</div>
+                <div class="tech-projects">6 projects</div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fas fa-server tech-icon" style="color: #02569B;"></i>
+                    <div>
+                        <div class="tech-name">REST API</div>
+                        <div class="tech-usage" style="color: #02569B;">33%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">API development</div>
+                <div class="tech-projects">2 projects</div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fas fa-cloud tech-icon" style="color: #46E3B7;"></i>
+                    <div>
+                        <div class="tech-name">Render</div>
+                        <div class="tech-usage" style="color: #46E3B7;">33%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">Cloud deployment platform</div>
+                <div class="tech-projects">2 projects</div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <i class="fas fa-database tech-icon" style="color: #5A5A5A;"></i>
+                    <div>
+                        <div class="tech-name">JSON</div>
+                        <div class="tech-usage" style="color: #888888;">50%</div>
+                    </div>
+                </div>
+                <div class="tech-desc">Data storage</div>
+                <div class="tech-projects">3 projects</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="logo-icon">LR</div>
+                <div>
+                    <div class="footer-name">Lupastean Raoul</div>
+                    <div class="footer-role">Python Developer</div>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/LupasteanRaoul/python-projects" target="_blank" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/raul-lupastean-a66705244/" target="_blank" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:lupasteanraul@gmail.com" aria-label="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Lupastean Raoul. All projects are open source and available on GitHub.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Project filtering
+        function filterProjects(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            const projects = document.querySelectorAll('.project-card');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            projects.forEach(project => {
+                if (category === 'all') {
+                    project.style.display = 'block';
+                } else {
+                    const projectCategory = project.dataset.category;
+                    project.style.display = projectCategory === category ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

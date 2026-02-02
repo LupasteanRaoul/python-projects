@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quicksort Visualizer - Web Edition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1><i class="fas fa-sort-amount-down"></i> Quicksort Algorithm Visualizer</h1>
+            <p class="subtitle">Vizualizează algoritmul Quicksort pas cu pas în timp real</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Panel - Controls -->
+            <div class="control-panel">
+                <div class="card">
+                    <h3><i class="fas fa-sliders-h"></i> Configurare Date</h3>
+                    
+                    <div class="form-group">
+                        <label for="arraySize">Număr elemente:</label>
+                        <input type="range" id="arraySize" min="5" max="30" value="15">
+                        <span id="sizeValue">15</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="minValue">Valoare minimă:</label>
+                        <input type="number" id="minValue" value="1" min="1" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxValue">Valoare maximă:</label>
+                        <input type="number" id="maxValue" value="100" min="10" max="500">
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="generateBtn" class="btn btn-primary">
+                            <i class="fas fa-random"></i> Generează Aleatoriu
+                        </button>
+                    </div>
+                    
+                    <div class="presets">
+                        <h4>Presetări:</h4>
+                        <div class="preset-buttons">
+                            <button class="preset-btn" data-preset="small">Mic (10)</button>
+                            <button class="preset-btn" data-preset="medium">Mediu (12)</button>
+                            <button class="preset-btn" data-preset="reverse">Inversat</button>
+                            <button class="preset-btn" data-preset="nearly_sorted">Aproape sortat</button>
+                            <button class="preset-btn" data-preset="duplicates">Duplicate</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-play-circle"></i> Control Animatie</h3>
+                    
+                    <div class="button-group">
+                        <button id="sortBtn" class="btn btn-success">
+                            <i class="fas fa-play"></i> Start Sortare
+                        </button>
+                        <button id="pauseBtn" class="btn btn-warning" disabled>
+                            <i class="fas fa-pause"></i> Pauză
+                        </button>
+                        <button id="resetBtn" class="btn btn-danger">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="speedControl">Viteză animație:</label>
+                        <input type="range" id="speedControl" min="100" max="2000" value="500">
+                        <span id="speedValue">500ms</span>
+                    </div>
+                    
+                    <div class="stats">
+                        <h4>Statistici:</h4>
+                        <div class="stat-item">
+                            <span>Pașii:</span>
+                            <span id="stepCounter">0/0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Comparații:</span>
+                            <span id="comparisonCounter">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Swap-uri:</span>
+                            <span id="swapCounter">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Timp:</span>
+                            <span id="timeCounter">0.00s</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-info-circle"></i> Legenda</h3>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="color-box normal"></div>
+                            <span>Element normal</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="color-box pivot"></div>
+                            <span>Pivot curent</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="color-box swapping"></div>
+                            <span>Element în swap</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="color-box sorted"></div>
+                            <span>Partiție sortată</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="color-box comparing"></div>
+                            <span>În comparație</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Panel - Visualization -->
+            <div class="visualization-panel">
+                <div class="card visualization-card">
+                    <h3><i class="fas fa-chart-bar"></i> Vizualizare Quicksort</h3>
+                    
+                    <!-- Array Display -->
+                    <div class="array-display" id="arrayDisplay">
+                        <!-- Elementele vor fi generate din JS -->
+                    </div>
+                    
+                    <!-- Step Information -->
+                    <div class="step-info">
+                        <div class="step-header">
+                            <h4>Detalii Pas Curent</h4>
+                            <div class="step-navigation">
+                                <button id="prevStep" class="btn-nav" disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span id="currentStepInfo">Pas #0</span>
+                                <button id="nextStep" class="btn-nav" disabled>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="step-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Tip operație:</span>
+                                <span id="operationType" class="detail-value">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Indici activi:</span>
+                                <span id="activeIndices" class="detail-value">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Pivot index:</span>
+                                <span id="pivotIndex" class="detail-value">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Array curent:</span>
+                                <span id="currentArray" class="detail-value">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Algorithm Explanation -->
+                    <div class="explanation">
+                        <h4>Cum funcționează Quicksort:</h4>
+                        <ol class="algorithm-steps">
+                            <li>Alege un element ca pivot (de obicei ultimul)</li>
+                            <li>Partiționează array-ul: elemente mai mici decât pivotul în stânga, cele mai mari în dreapta</li>
+                            <li>Așază pivotul în poziția corectă</li>
+                            <li>Aplică recursiv pentru subarray-urile din stânga și dreapta</li>
+                            <li>Combinația este deja sortată</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <!-- Code Display -->
+                <div class="card code-card">
+                    <h3><i class="fas fa-code"></i> Codul Quicksort</h3>
+                    <pre class="code-block">
+function quicksort(arr, low, high) {
+    if (low < high) {
+        let pi = partition(arr, low, high);
+        quicksort(arr, low, pi - 1);
+        quicksort(arr, pi + 1, high);
+    }
+}
+
+function partition(arr, low, high) {
+    let pivot = arr[high];
+    let i = low - 1;
+    
+    for (let j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+    }
+    
+    [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+    return i + 1;
+}</pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <p>Quicksort Visualizer Web Edition • Complexitate: O(n log n) average, O(n²) worst case • 
+                <a href="#" id="showComplexity">Detalii complexitate</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

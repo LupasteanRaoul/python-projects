@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Projects Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            padding: 50px 0;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+        }
+        
+        .project-header {
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+        
+        .project-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .project-badges {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .project-body {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            flex: 1;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        
+        .tech-tag {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-live {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-code {
+            background: #f3f4f6;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        
+        .flask-note {
+            background: #fff7ed;
+            border: 2px solid #fdba74;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .flask-note strong {
+            color: #9a3412;
+        }
+        
+        code {
+            background: #fed7aa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #9a3412;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 40px 0;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            
+            .project-links {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐍 Python Projects Portfolio</h1>
+            <p class="subtitle">A collection of Python and web development projects showcasing programming skills, algorithms, and full-stack development capabilities.</p>
+        </header>
+        
+        <div class="projects-grid">
+            <!-- 1. BUDGET TRACKER -->
+            <div class="project-card">
+                <div class="project-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <h2 class="project-title"><i class="fas fa-wallet"></i> Budget Tracker Web</h2>
+                    <div class="project-badges">
+                        <span class="badge" style="background: black; color: white;">Flask</span>
+                        <span class="badge" style="background: #306998; color: #FFD43B;">Python</span>
+                        <span class="badge" style="background: #28a745; color: white;">Live Demo</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Full-stack Flask application for personal finance management with real-time statistics,
+                        interactive charts, and transaction tracking. Features REST API endpoints and JSON data storage.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Chart.js</span>
+                        <span class="tech-tag">REST API</span>
+                    </div>
+                    
+                    <div class="project-links">
+                        <a href="budget-tracker-web/" class="btn btn-live">
+                            <i class="fas fa-external-link-alt"></i> View Project
+                        </a>
+                        <a href="https://budget-tracker-web.onrender.com" 
+                           class="btn btn-code" target="_blank">
+                           <i class="fas fa-rocket"></i> Live Demo
+                        </a>
+                    </div>
+                    
+                    <div class="flask-note">
+                        <strong>Note:</strong> Full application requires Flask. Live demo hosted on Render.com
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2. HASH TABLE VISUALIZER -->
+            <div class="project-card">
+                <div class="project-header" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <h2 class="project-title"><i class="fas fa-table"></i> Hash Table Visualizer</h2>
+                    <div class="project-badges">
+                        <span class="badge" style="background: #f59e0b; color: black;">JavaScript</span>
+                        <span class="badge" style="background: #3b82f6; color: white;">Interactive</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Interactive visualization of hash table operations with chaining collision resolution.
+                        Insert, search, and delete elements in real-time with detailed statistics and visual feedback.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">HTML/CSS</span>
+                        <span class="tech-tag">Data Structures</span>
+                        <span class="tech-tag">Algorithms</span>
+                    </div>
+                    
+                    <div class="project-links">
+                        <a href="hash-table/" class="btn btn-live">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/hash-table" 
+                           class="btn btn-code" target="_blank">
+                           <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3. ISBN VALIDATOR -->
+            <div class="project-card">
+                <div class="project-header" style="background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);">
+                    <h2 class="project-title"><i class="fas fa-barcode"></i> ISBN Validator</h2>
+                    <div class="project-badges">
+                        <span class="badge" style="background: #306998; color: #FFD43B;">Python</span>
+                        <span class="badge" style="background: #3b82f6; color: white;">Web Interface</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Validate ISBN-10 and ISBN-13 codes with detailed verification algorithms.
+                        Web interface for checking, generating, and converting ISBN codes with step-by-step validation.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Validation</span>
+                    </div>
+                    
+                    <div class="project-links">
+                        <a href="isbn-validator/" class="btn btn-live">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/isbn-validator" 
+                           class="btn btn-code" target="_blank">
+                           <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 4. POLYGON CALCULATOR -->
+            <div class="project-card">
+                <div class="project-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <h2 class="project-title"><i class="fas fa-shapes"></i> Polygon Calculator</h2>
+                    <div class="project-badges">
+                        <span class="badge" style="background: #306998; color: #FFD43B;">Python</span>
+                        <span class="badge" style="background: #f59e0b; color: black;">Mathematics</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Interactive geometric calculator for polygon properties with 2D visualization.
+                        Calculate area, perimeter, angles, and other properties for circles, triangles, rectangles, and regular polygons.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Geometry</span>
+                        <span class="tech-tag">HTML5 Canvas</span>
+                        <span class="tech-tag">JavaScript</span>
+                    </div>
+                    
+                    <div class="project-links">
+                        <a href="polygon-calculator/" class="btn btn-live">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/polygon-calculator" 
+                           class="btn btn-code" target="_blank">
+                           <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 5. QUICKSORT VISUALIZER -->
+            <div class="project-card">
+                <div class="project-header" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+                    <h2 class="project-title"><i class="fas fa-sort-amount-down"></i> Quicksort Visualizer</h2>
+                    <div class="project-badges">
+                        <span class="badge" style="background: black; color: white;">Flask</span>
+                        <span class="badge" style="background: #306998; color: #FFD43B;">Python</span>
+                        <span class="badge" style="background: #f97316; color: white;">Algorithm</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Full-stack Flask application for visualizing the Quicksort algorithm with step-by-step execution.
+                        Real-time animation, detailed statistics, and REST API endpoints for array generation and sorting.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">REST API</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Algorithms</span>
+                    </div>
+                    
+                    <div class="project-links">
+                        <a href="quicksort-visualizer/" class="btn btn-live">
+                            <i class="fas fa-external-link-alt"></i> View Project
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/quicksort-visualizer" 
+                           class="btn btn-code" target="_blank">
+                           <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                    
+                    <div class="flask-note">
+                        <strong>Flask Application:</strong> Requires Python to run locally: <code>python app.py</code>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 6. RPG GAME -->
+            <div class="project-card">
+                <div class="project-header" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <h2 class="project-title"><i class="fas fa-dragon"></i> RPG Game</h2>
+                    <div class="project-badges">
+                        <span class="badge" style="background: #306998; color: #FFD43B;">Python</span>
+                        <span class="badge" style="background: #10b981; color: white;">Console</span>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">
+                        Text-based role-playing game built with Python. Features character creation,
+                        combat system, inventory management, level progression, and interactive storytelling.
+                    </p>
+                    
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">OOP</span>
+                        <span class="tech-tag">Game Development</span>
+                        <span class="tech-tag">Console Application</span>
+                    </div>
+                    
+                    <div class="project-links">
+                        <a href="rpg-game-final/" class="btn btn-live">
+                            <i class="fas fa-external-link-alt"></i> View Project
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/rpg-game-final" 
+                           class="btn btn-code" target="_blank">
+                           <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Python Projects Portfolio &copy; 2024 | 
+                <a href="https://github.com/LupasteanRaoul/python-projects" 
+                   style="color: white; text-decoration: underline;" target="_blank">
+                   View on GitHub
+                </a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                Built with Python, Flask, JavaScript, HTML & CSS
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

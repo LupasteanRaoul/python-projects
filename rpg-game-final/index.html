@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=frontend/">
+    <title>RPG Game - Redirecting</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #ffd700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 RPG Game</h1>
+        <p>Redirecting to game interface...</p>
+        <p>If not redirected, <a href="frontend/">click here</a></p>
+    </div>
+    <script>
+        setTimeout(() => {
+            window.location.href = "frontend/";
+        }, 1000);
+    </script>
+</body>
+</html>

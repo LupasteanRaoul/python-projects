@@ -1,0 +1,35 @@
+__pycache__/
+<<<<<<< HEAD
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# App data
+*.csv
+!budget_data.json
+
+# Environment
+.env
+=======
+*.pyc
+venv/
+.env
+*.log
+*.csv
+>>>>>>> f62f3bdc657729335315a20c3b6d4cd90ba9425c

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker - Aplicație Python Flask</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --income: #10b981;
+            --expense: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* CONTENT SECTION */
+        .content {
+            padding: 60px 40px;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        /* FEATURES */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text; /* Standard property */
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .feature h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+        
+        .feature p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        /* SCREENSHOT */
+        .screenshot-container {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px auto;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .screenshot {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .screenshot-caption {
+            text-align: center;
+            margin-top: 15px;
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        /* CODE BLOCK */
+        .code-section {
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .code-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+        
+        pre {
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .code-comment { color: #64748b; }
+        .code-keyword { color: #f472b6; }
+        .code-function { color: #60a5fa; }
+        .code-string { color: #34d399; }
+        .code-number { color: #fbbf24; }
+        
+        /* BUTTONS */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 18px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            min-width: 220px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 2px solid #cbd5e1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(-2px);
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .badges {
+                gap: 10px;
+            }
+            
+            .badge {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- HERO SECTION -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1><i class="fas fa-wallet"></i> Budget Tracker</h1>
+                <p>Aplicație web completă pentru gestionarea veniturilor și cheltuielilor personale. 
+                Construită cu Python Flask, cu interfață modernă în limba română și funcționalități esențiale pentru managementul financiar.</p>
+                
+                <div class="badges">
+                    <div class="badge"><i class="fab fa-python"></i> Python 3.10</div>
+                    <div class="badge"><i class="fas fa-server"></i> Flask Backend</div>
+                    <div class="badge"><i class="fas fa-bolt"></i> REST API</div>
+                    <div class="badge"><i class="fas fa-database"></i> JSON Storage</div>
+                    <div class="badge"><i class="fas fa-mobile-alt"></i> Responsive</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- SCREENSHOT -->
+            <div class="section">
+                <h2>🎨 Interfața Aplicației</h2>
+                <div class="screenshot-container">
+                    <img src="screenshot.png" alt="Budget Tracker Interface" class="screenshot">
+                    <p class="screenshot-caption">Dashboard-ul principal cu statistici, formular de adăugare tranzacții și istoric</p>
+                </div>
+            </div>
+            
+            <!-- FEATURES -->
+            <div class="section">
+                <h2>✨ Caracteristici</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Statistici în Timp Real</h3>
+                        <p>Balanță totală, venituri, cheltuieli și număr de tranzacții afișate în timp real</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <h3>Gestiune Tranzacții</h3>
+                        <p>Adaugă venituri și cheltuieli cu categorii personalizate și descriere</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-history"></i></div>
+                        <h3>Istoric Complet</h3>
+                        <p>Toate tranzacțiile într-un tabel sortabil cu filtrare pe categorii</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-language"></i></div>
+                        <h3>Interfață Română</h3>
+                        <p>Complet tradusă în limba română pentru o experiență utilizator optimă</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <h3>Design Responsive</h3>
+                        <p>Funcționează perfect pe desktop, tabletă și dispozitive mobile</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-database"></i></div>
+                        <h3>Stocare Locală</h3>
+                        <p>Datele sunt salvate în fișier JSON, ușor de migrat și back-up</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CODE SNIPPET -->
+            <div class="section">
+                <h2>💻 Cod Python Flask</h2>
+                <div class="code-section">
+                    <h3><i class="fas fa-code"></i> Backend Python cu Flask</h3>
+                    <div class="code-block">
+                        <pre><code><span class="code-keyword">from</span> flask <span class="code-keyword">import</span> Flask, render_template, request, redirect, jsonify
+<span class="code-keyword">import</span> json
+<span class="code-keyword">from</span> datetime <span class="code-keyword">import</span> datetime
+
+app = Flask(__name__)
+
+<span class="code-comment"># Încarcă datele din fișierul JSON</span>
+<span class="code-keyword">def</span> <span class="code-function">load_data</span>():
+    <span class="code-keyword">try</span>:
+        <span class="code-keyword">with</span> open(<span class="code-string">'budget_data.json'</span>, <span class="code-string">'r'</span>) <span class="code-keyword">as</span> f:
+            <span class="code-keyword">return</span> json.load(f)
+    <span class="code-keyword">except</span> FileNotFoundError:
+        <span class="code-keyword">return</span> []
+
+<span class="code-comment"># Ruta principală - afișează dashboard-ul</span>
+@app.route(<span class="code-string">'/'</span>)
+<span class="code-keyword">def</span> <span class="code-function">index</span>():
+    transactions = load_data()
+    
+    <span class="code-comment"># Calculează statistici</span>
+    balance = <span class="code-number">0</span>
+    income = <span class="code-number">0</span>
+    expenses = <span class="code-number">0</span>
+    
+    <span class="code-keyword">for</span> t <span class="code-keyword">in</span> transactions:
+        <span class="code-keyword">if</span> t[<span class="code-string">'type'</span>] == <span class="code-string">'income'</span>:
+            balance += t[<span class="code-string">'amount'</span>]
+            income += t[<span class="code-string">'amount'</span>]
+        <span class="code-keyword">else</span>:
+            balance -= t[<span class="code-string">'amount'</span>]
+            expenses += t[<span class="code-string">'amount'</span>]
+    
+    <span class="code-keyword">return</span> render_template(<span class="code-string">'index.html'</span>,
+                           transactions=transactions,
+                           balance=balance,
+                           income=income,
+                           expenses=expenses,
+                           total=len(transactions))
+
+<span class="code-comment"># Ruta pentru adăugare tranzacție</span>
+@app.route(<span class="code-string">'/add'</span>, methods=[<span class="code-string">'POST'</span>])
+<span class="code-keyword">def</span> <span class="code-function">add_transaction</span>():
+    <span class="code-comment"># ... cod pentru adăugare tranzacție ...</span>
+    <span class="code-keyword">return</span> redirect(<span class="code-string">'/'</span>)
+
+<span class="code-keyword">if</span> __name__ == <span class="code-string">'__main__'</span>:
+    app.run(debug=<span class="code-keyword">True</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- HOW TO RUN -->
+            <div class="section">
+                <h2>🚀 Cum să Rulezi Proiectul</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-download"></i></div>
+                        <h3>1. Clonează Proiectul</h3>
+                        <pre style="background: #f1f5f9; padding: 15px; border-radius: 8px; overflow-x: auto;">
+git clone https://github.com/LupasteanRaoul/python-projects.git</pre>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-folder-open"></i></div>
+                        <h3>2. Navighează în Folder</h3>
+                        <pre style="background: #f1f5f9; padding: 15px; border-radius: 8px; overflow-x: auto;">
+cd python-projects/budget-tracker-web</pre>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-cogs"></i></div>
+                        <h3>3. Instalează Dependențele</h3>
+                        <pre style="background: #f1f5f9; padding: 15px; border-radius: 8px; overflow-x: auto;">
+pip install -r requirements.txt</pre>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-play"></i></div>
+                        <h3>4. Rulează Aplicația</h3>
+                        <pre style="background: #f1f5f9; padding: 15px; border-radius: 8px; overflow-x: auto;">
+python app.py</pre>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                        <h3>5. Accesează în Browser</h3>
+                        <pre style="background: #f1f5f9; padding: 15px; border-radius: 8px; overflow-x: auto;">
+http://localhost:5000</pre>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon"><i class="fas fa-cloud"></i></div>
+                        <h3>6. Demo Live (Opțional)</h3>
+                        <p>Accesează versiunea deployată pe Render.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BUTTONS -->
+            <div class="buttons">
+                <a href="https://budget-tracker-web.onrender.com" class="btn btn-primary" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Vezi Demo Live
+                </a>
+                <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/budget-tracker-web" 
+                   class="btn btn-secondary" target="_blank">
+                   <i class="fab fa-github"></i> Vezi Codul Sursă
+                </a>
+                <a href="../" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Înapoi la Portofoliu
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

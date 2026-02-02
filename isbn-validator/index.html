@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISBN Validator Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-barcode"></i>
+                <h1>ISBN Validator <span class="pro-badge">PRO</span></h1>
+            </div>
+            <p class="tagline">Verifică, generează și convertește coduri ISBN cu precizie</p>
+        </header>
+
+        <main class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h2><i class="fas fa-cogs"></i> Operații</h2>
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="validate">
+                            <i class="fas fa-check-circle"></i> Validează ISBN
+                        </button>
+                        <button class="tab-btn" data-tab="generate">
+                            <i class="fas fa-plus-circle"></i> Generează Cifră Control
+                        </button>
+                        <button class="tab-btn" data-tab="convert">
+                            <i class="fas fa-exchange-alt"></i> Convertește ISBN-10 → 13
+                        </button>
+                        <button class="tab-btn" data-tab="samples">
+                            <i class="fas fa-book"></i> Exemple Test
+                        </button>
+                        <button class="tab-btn" data-tab="info">
+                            <i class="fas fa-info-circle"></i> Despre ISBN
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h2><i class="fas fa-history"></i> Istoric</h2>
+                    <div id="history-list">
+                        <!-- Istoricul va fi generat aici -->
+                    </div>
+                    <button id="clear-history" class="btn btn-small">
+                        <i class="fas fa-trash"></i> Curăță Istoric
+                    </button>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <!-- Tab: Validează ISBN -->
+                <div id="validate-tab" class="tab-content active">
+                    <h2><i class="fas fa-search"></i> Validează Cod ISBN</h2>
+                    
+                    <div class="input-group">
+                        <input type="text" id="isbn-input" 
+                               placeholder="Introdu codul ISBN (ex: 0-306-40615-2 sau 978-0-306-40615-7)" 
+                               class="large-input">
+                        <button id="validate-btn" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Validează
+                        </button>
+                        <button id="scan-btn" class="btn btn-secondary">
+                            <i class="fas fa-camera"></i> Simulează Scanare
+                        </button>
+                    </div>
+
+                    <div class="result-container">
+                        <div class="result-header">
+                            <h3>Rezultat Validare</h3>
+                            <div class="type-badge" id="isbn-type">ISBN-?</div>
+                        </div>
+                        
+                        <div class="result-details">
+                            <div class="result-row">
+                                <span class="label">Status:</span>
+                                <span id="validation-status" class="status">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="label">Format Curat:</span>
+                                <span id="clean-format" class="value">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="label">Cifră Control:</span>
+                                <span id="check-digit" class="value">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="label">Informații Prefix:</span>
+                                <span id="prefix-info" class="value">-</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="label">Domeniu:</span>
+                                <span id="domain-info" class="value">-</span>
+                            </div>
+                        </div>
+                        
+                        <div id="error-message" class="error-message hidden">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span id="error-text"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Generează Cifră Control -->
+                <div id="generate-tab" class="tab-content">
+                    <h2><i class="fas fa-calculator"></i> Generează Cifră de Control ISBN-10</h2>
+                    
+                    <div class="input-group">
+                        <input type="text" id="first-nine-input" 
+                               placeholder="Primele 9 cifre (ex: 030640615)" 
+                               maxlength="9" class="medium-input">
+                        <button id="generate-btn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Generează
+                        </button>
+                    </div>
+
+                    <div class="result-container">
+                        <h3>Rezultat Generare</h3>
+                        <div class="generated-result">
+                            <div class="input-display">
+                                <span class="label">Primele 9 cifre:</span>
+                                <code id="display-first-nine">________</code>
+                            </div>
+                            <div class="check-digit-display">
+                                <span class="label">Cifră control calculată:</span>
+                                <code id="display-check-digit" class="check-digit">_</code>
+                            </div>
+                            <div class="full-isbn">
+                                <span class="label">ISBN-10 Complet:</span>
+                                <code id="display-full-isbn" class="full-isbn-code">
+                                    _________
+                                </code>
+                            </div>
+                            <button id="copy-isbn" class="btn btn-small">
+                                <i class="far fa-copy"></i> Copiază ISBN
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Convertește ISBN -->
+                <div id="convert-tab" class="tab-content">
+                    <h2><i class="fas fa-sync-alt"></i> Convertește ISBN-10 la ISBN-13</h2>
+                    
+                    <div class="input-group">
+                        <input type="text" id="convert-input" 
+                               placeholder="Introdu ISBN-10 (ex: 0-306-40615-2)" 
+                               class="medium-input">
+                        <button id="convert-btn" class="btn btn-primary">
+                            <i class="fas fa-exchange-alt"></i> Convertește
+                        </button>
+                    </div>
+
+                    <div class="conversion-result">
+                        <div class="original-isbn">
+                            <h4><i class="fas fa-long-arrow-alt-left"></i> ISBN-10 Original</h4>
+                            <code id="original-isbn-display">-</code>
+                        </div>
+                        
+                        <div class="conversion-arrow">
+                            <i class="fas fa-arrow-right fa-2x"></i>
+                            <div class="conversion-step">Adaugă prefix 978</div>
+                        </div>
+                        
+                        <div class="converted-isbn">
+                            <h4><i class="fas fa-long-arrow-alt-right"></i> ISBN-13 Convertit</h4>
+                            <code id="converted-isbn-display">-</code>
+                            <div class="isbn-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Prefix:</span>
+                                    <span id="conversion-prefix" class="detail-value">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Cifră Control:</span>
+                                    <span id="conversion-check-digit" class="detail-value">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Exemple Test -->
+                <div id="samples-tab" class="tab-content">
+                    <h2><i class="fas fa-vial"></i> Teste Predefinite</h2>
+                    
+                    <div class="sample-category">
+                        <h3><i class="fas fa-check text-success"></i> ISBN-10 Valide</h3>
+                        <div id="valid-isbn10-list" class="sample-list">
+                            <!-- Vor fi populate din JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="sample-category">
+                        <h3><i class="fas fa-times text-danger"></i> ISBN-10 Invalide</h3>
+                        <div id="invalid-isbn10-list" class="sample-list">
+                            <!-- Vor fi populate din JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="sample-category">
+                        <h3><i class="fas fa-check text-success"></i> ISBN-13 Valide</h3>
+                        <div id="valid-isbn13-list" class="sample-list">
+                            <!-- Vor fi populate din JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="sample-category">
+                        <h3><i class="fas fa-times text-danger"></i> ISBN-13 Invalide</h3>
+                        <div id="invalid-isbn13-list" class="sample-list">
+                            <!-- Vor fi populate din JS -->
+                        </div>
+                    </div>
+                    
+                    <button id="run-all-tests" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Rulează Toate Testele
+                    </button>
+                </div>
+
+                <!-- Tab: Despre ISBN -->
+                <div id="info-tab" class="tab-content">
+                    <h2><i class="fas fa-info-circle"></i> Despre Sistemele ISBN</h2>
+                    
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h3><i class="fas fa-history"></i> Istoric</h3>
+                            <p>ISBN (International Standard Book Number) a fost creat în 1966 în Regatul Unit.</p>
+                            <ul>
+                                <li><strong>1967:</strong> Adoptat ca standard internațional ISO 2108</li>
+                                <li><strong>1970:</strong> Implementat la nivel global</li>
+                                <li><strong>2007:</strong> Tranziția la ISBN-13</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3><i class="fas fa-barcode"></i> ISBN-10 vs ISBN-13</h3>
+                            <table class="comparison-table">
+                                <tr>
+                                    <th></th>
+                                    <th>ISBN-10</th>
+                                    <th>ISBN-13</th>
+                                </tr>
+                                <tr>
+                                    <td>Lungime</td>
+                                    <td>10 caractere</td>
+                                    <td>13 caractere</td>
+                                </tr>
+                                <tr>
+                                    <td>Prefix</td>
+                                    <td>Prefix de limbă/editor</td>
+                                    <td>978 sau 979 + prefix</td>
+                                </tr>
+                                <tr>
+                                    <td>Cifră Control</td>
+                                    <td>Modul 11 (0-9, X)</td>
+                                    <td>Modul 10 (0-9)</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3><i class="fas fa-calculator"></i> Algoritmi Validare</h3>
+                            <h4>ISBN-10:</h4>
+                            <p>Suma = ∑ (cifra_i × i) pentru i=1..10</p>
+                            <p>Valid dacă Suma mod 11 = 0</p>
+                            
+                            <h4>ISBN-13:</h4>
+                            <p>Suma = ∑ (cifra_i × [1,3,1,3,...])</p>
+                            <p>Valid dacă Suma mod 10 = 0</p>
+                        </div>
+                        
+                        <div class="info-card">
+                            <h3><i class="fas fa-globe-americas"></i> Prefixe Țări</h3>
+                            <ul class="country-list">
+                                <li><strong>0, 1:</strong> Limba engleză</li>
+                                <li><strong>2:</strong> Limba franceză</li>
+                                <li><strong>3:</strong> Limba germană</li>
+                                <li><strong>4:</strong> Japonia</li>
+                                <li><strong>5:</strong> Rusia</li>
+                                <li><strong>80:</strong> Cehia, Slovacia</li>
+                                <li><strong>85:</strong> Brazilia</li>
+                                <li><strong>86:</strong> Serbia</li>
+                                <li><strong>973:</strong> România</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>ISBN Validator Pro &copy; 2024 | Algoritm conform standardului ISO 2108</p>
+                <p class="footer-links">
+                    <a href="#" onclick="showHelp()"><i class="fas fa-question-circle"></i> Ajutor</a> |
+                    <a href="#" onclick="showPrivacy()"><i class="fas fa-shield-alt"></i> Confidențialitate</a> |
+                    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal pentru detalii -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="isbn_validator.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

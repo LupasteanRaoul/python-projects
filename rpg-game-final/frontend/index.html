@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Obsidian Chronicles - RPG Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-dragon"></i>
+            </div>
+            <h1>The Obsidian Chronicles</h1>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-text">Se încarcă...</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="app" class="app-container hidden">
+        <!-- Auth Screen -->
+        <div id="auth-screen" class="screen auth-screen">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <i class="fas fa-shield-halved"></i>
+                    <h1>The Obsidian Chronicles</h1>
+                    <p id="lang-subtitle">Intrați în lumea întunericului</p>
+                </div>
+                
+                <!-- Language Selector -->
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="ro">🇷🇴 RO</button>
+                    <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+                </div>
+
+                <div id="login-form" class="auth-form">
+                    <h2 data-lang-key="login">Autentificare</h2>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="login-username" placeholder="Username" data-testid="login-username">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Parolă" data-testid="login-password">
+                    </div>
+                    <button class="btn btn-primary" onclick="login()" data-testid="login-btn">
+                        <span data-lang-key="login">Autentificare</span>
+                    </button>
+                    <p class="auth-switch">
+                        <span data-lang-key="noAccount">Nu ai cont?</span>
+                        <a href="#" onclick="showRegister()" data-lang-key="register">Înregistrare</a>
+                    </p>
+                </div>
+
+                <div id="register-form" class="auth-form hidden">
+                    <h2 data-lang-key="register">Înregistrare</h2>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="register-username" placeholder="Username" data-testid="register-username">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="register-email" placeholder="Email" data-testid="register-email">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="register-password" placeholder="Parolă" data-testid="register-password">
+                    </div>
+                    <button class="btn btn-primary" onclick="register()" data-testid="register-btn">
+                        <span data-lang-key="register">Înregistrare</span>
+                    </button>
+                    <p class="auth-switch">
+                        <span data-lang-key="hasAccount">Ai deja cont?</span>
+                        <a href="#" onclick="showLogin()" data-lang-key="login">Autentificare</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Character Creation Screen -->
+        <div id="character-screen" class="screen character-screen hidden">
+            <div class="character-card">
+                <h1 data-lang-key="createChar">Creează-ți Personajul</h1>
+                <div class="input-group">
+                    <i class="fas fa-signature"></i>
+                    <input type="text" id="char-name" placeholder="Numele personajului" data-testid="char-name">
+                </div>
+                <div class="class-selection">
+                    <h3 data-lang-key="selectClass">Alege Clasa</h3>
+                    <div class="class-options">
+                        <div class="class-card" data-class="warrior" onclick="selectClass('warrior')" data-testid="class-warrior">
+                            <i class="fas fa-sword"></i>
+                            <h4>Warrior</h4>
+                            <p data-lang-key="warriorDesc">Putere și rezistență</p>
+                            <div class="class-stats">
+                                <span><i class="fas fa-heart"></i> 150</span>
+                                <span><i class="fas fa-bolt"></i> 30</span>
+                                <span><i class="fas fa-fist-raised"></i> 15</span>
+                            </div>
+                        </div>
+                        <div class="class-card" data-class="mage" onclick="selectClass('mage')" data-testid="class-mage">
+                            <i class="fas fa-hat-wizard"></i>
+                            <h4>Mage</h4>
+                            <p data-lang-key="mageDesc">Magie devastatoare</p>
+                            <div class="class-stats">
+                                <span><i class="fas fa-heart"></i> 80</span>
+                                <span><i class="fas fa-bolt"></i> 150</span>
+                                <span><i class="fas fa-wand-sparkles"></i> 18</span>
+                            </div>
+                        </div>
+                        <div class="class-card" data-class="rogue" onclick="selectClass('rogue')" data-testid="class-rogue">
+                            <i class="fas fa-user-ninja"></i>
+                            <h4>Rogue</h4>
+                            <p data-lang-key="rogueDesc">Viteză și precizie</p>
+                            <div class="class-stats">
+                                <span><i class="fas fa-heart"></i> 100</span>
+                                <span><i class="fas fa-bolt"></i> 60</span>
+                                <span><i class="fas fa-feather"></i> 15</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-create" onclick="createCharacter()" data-testid="create-char-btn">
+                    <i class="fas fa-plus"></i>
+                    <span data-lang-key="createChar">Creează Personajul</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Game Screen -->
+        <div id="game-screen" class="screen game-screen hidden">
+            <!-- Top Navigation -->
+            <nav class="game-nav">
+                <div class="nav-left">
+                    <div class="logo">
+                        <i class="fas fa-dragon"></i>
+                        <span>Obsidian</span>
+                    </div>
+                </div>
+                <div class="nav-center">
+                    <button class="nav-btn active" data-tab="dashboard" onclick="showTab('dashboard')" data-testid="nav-dashboard">
+                        <i class="fas fa-home"></i>
+                        <span data-lang-key="dashboard">Dashboard</span>
+                    </button>
+                    <button class="nav-btn" data-tab="battle" onclick="showTab('battle')" data-testid="nav-battle">
+                        <i class="fas fa-swords"></i>
+                        <span data-lang-key="battle">Bătălie</span>
+                    </button>
+                    <button class="nav-btn" data-tab="inventory" onclick="showTab('inventory')" data-testid="nav-inventory">
+                        <i class="fas fa-backpack"></i>
+                        <span data-lang-key="inventory">Inventar</span>
+                    </button>
+                    <button class="nav-btn" data-tab="quests" onclick="showTab('quests')" data-testid="nav-quests">
+                        <i class="fas fa-scroll"></i>
+                        <span data-lang-key="quests">Quest-uri</span>
+                    </button>
+                    <button class="nav-btn" data-tab="pvp" onclick="showTab('pvp')" data-testid="nav-pvp">
+                        <i class="fas fa-users"></i>
+                        <span>PvP</span>
+                    </button>
+                    <button class="nav-btn" data-tab="leaderboard" onclick="showTab('leaderboard')" data-testid="nav-leaderboard">
+                        <i class="fas fa-trophy"></i>
+                        <span data-lang-key="leaderboard">Clasament</span>
+                    </button>
+                </div>
+                <div class="nav-right">
+                    <div class="lang-mini">
+                        <button class="lang-btn-mini active" data-lang="ro">RO</button>
+                        <button class="lang-btn-mini" data-lang="en">EN</button>
+                    </div>
+                    <button class="btn btn-logout" onclick="logout()" data-testid="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Character Stats Sidebar -->
+            <aside class="char-sidebar">
+                <div class="char-portrait">
+                    <div class="portrait-icon" id="char-class-icon">
+                        <i class="fas fa-sword"></i>
+                    </div>
+                    <div class="char-info">
+                        <h3 id="char-display-name">Hero</h3>
+                        <span class="char-level">Lv. <span id="char-level">1</span></span>
+                    </div>
+                </div>
+                
+                <div class="char-bars">
+                    <div class="stat-bar health">
+                        <div class="bar-label">
+                            <i class="fas fa-heart"></i>
+                            <span>HP</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="health-bar"></div>
+                            <span class="bar-text" id="health-text">100/100</span>
+                        </div>
+                    </div>
+                    <div class="stat-bar mana">
+                        <div class="bar-label">
+                            <i class="fas fa-droplet"></i>
+                            <span>MP</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="mana-bar"></div>
+                            <span class="bar-text" id="mana-text">50/50</span>
+                        </div>
+                    </div>
+                    <div class="stat-bar stamina">
+                        <div class="bar-label">
+                            <i class="fas fa-bolt"></i>
+                            <span>ST</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="stamina-bar"></div>
+                            <span class="bar-text" id="stamina-text">100/100</span>
+                        </div>
+                    </div>
+                    <div class="stat-bar exp">
+                        <div class="bar-label">
+                            <i class="fas fa-star"></i>
+                            <span>EXP</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" id="exp-bar"></div>
+                            <span class="bar-text" id="exp-text">0/100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="char-stats-mini">
+                    <div class="stat-item" title="Strength">
+                        <i class="fas fa-fist-raised"></i>
+                        <span id="stat-str">10</span>
+                    </div>
+                    <div class="stat-item" title="Intelligence">
+                        <i class="fas fa-brain"></i>
+                        <span id="stat-int">10</span>
+                    </div>
+                    <div class="stat-item" title="Agility">
+                        <i class="fas fa-feather"></i>
+                        <span id="stat-agi">10</span>
+                    </div>
+                    <div class="stat-item gold" title="Gold">
+                        <i class="fas fa-coins"></i>
+                        <span id="stat-gold">100</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-rest" onclick="restCharacter()" data-testid="rest-btn">
+                    <i class="fas fa-bed"></i>
+                    <span data-lang-key="rest">Odihnă (10g)</span>
+                </button>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="game-content">
+                <!-- Dashboard Tab -->
+                <section id="tab-dashboard" class="tab-content active">
+                    <div class="dashboard-grid">
+                        <div class="dash-card welcome-card">
+                            <h2 data-lang-key="welcome">Bine ai venit, Aventurier!</h2>
+                            <p data-lang-key="welcomeDesc">Explorează lumea și înfruntă dușmanii!</p>
+                        </div>
+                        <div class="dash-card stats-card">
+                            <h3><i class="fas fa-chart-line"></i> <span data-lang-key="battleStats">Statistici Bătălie</span></h3>
+                            <div class="battle-stats">
+                                <div class="stat">
+                                    <span class="stat-label" data-lang-key="wins">Victorii</span>
+                                    <span class="stat-value" id="wins-count">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label" data-lang-key="losses">Înfrângeri</span>
+                                    <span class="stat-value" id="losses-count">0</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">PvP <span data-lang-key="wins">Victorii</span></span>
+                                    <span class="stat-value" id="pvp-wins-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dash-card skills-preview">
+                            <h3><i class="fas fa-wand-magic-sparkles"></i> <span data-lang-key="skills">Abilitățile Tale</span></h3>
+                            <div id="skills-list" class="skills-grid"></div>
+                        </div>
+                        <div class="dash-card achievements-card">
+                            <h3><i class="fas fa-medal"></i> <span data-lang-key="achievements">Realizări</span></h3>
+                            <div id="achievements-list" class="achievements-grid"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Battle Tab -->
+                <section id="tab-battle" class="tab-content">
+                    <div id="battle-select" class="battle-select">
+                        <h2><i class="fas fa-dragon"></i> <span data-lang-key="selectEnemy">Alege Inamicul</span></h2>
+                        <div id="enemies-list" class="enemies-grid"></div>
+                    </div>
+                    <div id="battle-arena" class="battle-arena hidden">
+                        <div class="battle-field">
+                            <div class="combatant player-side">
+                                <div class="combatant-portrait player-portrait">
+                                    <i class="fas fa-user" id="battle-player-icon"></i>
+                                </div>
+                                <div class="combatant-info">
+                                    <h3 id="battle-player-name">Player</h3>
+                                    <div class="combatant-bars">
+                                        <div class="mini-bar health">
+                                            <div class="bar-fill" id="battle-player-hp"></div>
+                                        </div>
+                                        <span id="battle-player-hp-text">100/100</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="battle-vs">
+                                <span>VS</span>
+                            </div>
+                            <div class="combatant enemy-side">
+                                <div class="combatant-portrait enemy-portrait">
+                                    <i class="fas fa-skull" id="battle-enemy-icon"></i>
+                                </div>
+                                <div class="combatant-info">
+                                    <h3 id="battle-enemy-name">Enemy</h3>
+                                    <div class="combatant-bars">
+                                        <div class="mini-bar health">
+                                            <div class="bar-fill" id="battle-enemy-hp"></div>
+                                        </div>
+                                        <span id="battle-enemy-hp-text">50/50</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="battle-log" id="battle-log"></div>
+                        <div class="battle-actions">
+                            <button class="action-btn attack" onclick="battleAction('attack')" data-testid="battle-attack">
+                                <i class="fas fa-sword"></i>
+                                <span data-lang-key="attack">Atac</span>
+                            </button>
+                            <div class="skills-dropdown" id="battle-skills-dropdown">
+                                <button class="action-btn skill" onclick="toggleSkillsMenu()" data-testid="battle-skills">
+                                    <i class="fas fa-wand-sparkles"></i>
+                                    <span data-lang-key="skills">Abilități</span>
+                                </button>
+                                <div class="skills-menu hidden" id="skills-menu"></div>
+                            </div>
+                            <button class="action-btn defend" onclick="battleAction('defend')" data-testid="battle-defend">
+                                <i class="fas fa-shield"></i>
+                                <span data-lang-key="defend">Apărare</span>
+                            </button>
+                            <div class="items-dropdown" id="battle-items-dropdown">
+                                <button class="action-btn item" onclick="toggleItemsMenu()" data-testid="battle-items">
+                                    <i class="fas fa-flask"></i>
+                                    <span data-lang-key="items">Obiecte</span>
+                                </button>
+                                <div class="items-menu hidden" id="items-menu"></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-flee" onclick="fleeBattle()" data-testid="flee-btn">
+                            <i class="fas fa-running"></i>
+                            <span data-lang-key="flee">Fugi</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Inventory Tab -->
+                <section id="tab-inventory" class="tab-content">
+                    <div class="inventory-container">
+                        <div class="equipment-panel">
+                            <h3><i class="fas fa-tshirt"></i> <span data-lang-key="equipment">Echipament</span></h3>
+                            <div class="equipment-slots">
+                                <div class="equip-slot" data-slot="weapon" ondrop="dropEquip(event, 'weapon')" ondragover="allowDrop(event)" data-testid="slot-weapon">
+                                    <i class="fas fa-sword slot-icon"></i>
+                                    <span data-lang-key="weapon">Armă</span>
+                                    <div class="equipped-item" id="equipped-weapon"></div>
+                                </div>
+                                <div class="equip-slot" data-slot="armor" ondrop="dropEquip(event, 'armor')" ondragover="allowDrop(event)" data-testid="slot-armor">
+                                    <i class="fas fa-shield slot-icon"></i>
+                                    <span data-lang-key="armor">Armură</span>
+                                    <div class="equipped-item" id="equipped-armor"></div>
+                                </div>
+                                <div class="equip-slot" data-slot="accessory" ondrop="dropEquip(event, 'accessory')" ondragover="allowDrop(event)" data-testid="slot-accessory">
+                                    <i class="fas fa-ring slot-icon"></i>
+                                    <span data-lang-key="accessory">Accesoriu</span>
+                                    <div class="equipped-item" id="equipped-accessory"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inventory-panel">
+                            <div class="inventory-header">
+                                <h3><i class="fas fa-backpack"></i> <span data-lang-key="inventory">Inventar</span></h3>
+                                <button class="btn btn-shop" onclick="openShop()" data-testid="open-shop">
+                                    <i class="fas fa-store"></i>
+                                    <span data-lang-key="shop">Magazin</span>
+                                </button>
+                                <button class="btn btn-craft" onclick="openCrafting()" data-testid="open-crafting">
+                                    <i class="fas fa-hammer"></i>
+                                    <span data-lang-key="crafting">Crafting</span>
+                                </button>
+                            </div>
+                            <div class="inventory-grid" id="inventory-grid"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quests Tab -->
+                <section id="tab-quests" class="tab-content">
+                    <div class="quests-container">
+                        <div class="active-quests">
+                            <h3><i class="fas fa-tasks"></i> <span data-lang-key="activeQuests">Quest-uri Active</span></h3>
+                            <div id="active-quests-list" class="quests-list"></div>
+                        </div>
+                        <div class="available-quests">
+                            <h3><i class="fas fa-plus-circle"></i> <span data-lang-key="availableQuests">Quest-uri Disponibile</span></h3>
+                            <div id="available-quests-list" class="quests-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PvP Tab -->
+                <section id="tab-pvp" class="tab-content">
+                    <div class="pvp-container">
+                        <div class="pvp-modes">
+                            <div class="pvp-card" onclick="joinMatchmaking()" data-testid="join-pvp">
+                                <i class="fas fa-swords"></i>
+                                <h3>PvP Arena</h3>
+                                <p data-lang-key="pvpDesc">Luptă împotriva altor jucători!</p>
+                                <button class="btn btn-pvp" id="matchmaking-btn">
+                                    <span data-lang-key="findMatch">Caută Meci</span>
+                                </button>
+                            </div>
+                            <div class="pvp-card coop-card" onclick="joinCoop()" data-testid="join-coop">
+                                <i class="fas fa-handshake"></i>
+                                <h3>Co-op Mode</h3>
+                                <p data-lang-key="coopDesc">Colaborează cu alți jucători!</p>
+                                <button class="btn btn-coop">
+                                    <span data-lang-key="findTeam">Caută Echipă</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pvp-chat">
+                            <h3><i class="fas fa-comments"></i> <span data-lang-key="globalChat">Chat Global</span></h3>
+                            <div class="chat-messages" id="chat-messages"></div>
+                            <div class="chat-input">
+                                <input type="text" id="chat-input" placeholder="Scrie un mesaj..." data-testid="chat-input">
+                                <button onclick="sendChat()" data-testid="send-chat">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PvP Battle Arena (hidden until match starts) -->
+                    <div id="pvp-battle-arena" class="battle-arena hidden"></div>
+                </section>
+
+                <!-- Leaderboard Tab -->
+                <section id="tab-leaderboard" class="tab-content">
+                    <div class="leaderboard-container">
+                        <h2><i class="fas fa-trophy"></i> <span data-lang-key="topPlayers">Top Jucători</span></h2>
+                        <div id="leaderboard-list" class="leaderboard-list"></div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div id="modal-content" class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notifications" class="notifications-container"></div>
+
+    <!-- Tooltips -->
+    <div id="tooltip" class="tooltip hidden"></div>
+
+    <!-- Floating Damage Numbers Container -->
+    <div id="damage-numbers" class="damage-numbers"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

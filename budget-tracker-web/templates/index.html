@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker</title>
+    <link rel="stylesheet" href="static/css/style.css">    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <h1><i class="fas fa-wallet"></i> Budget Tracker</h1>
+            <p class="subtitle">Gestionează-ți veniturile și cheltuielile</p>
+        </header>
+
+        <div class="dashboard">
+            <!-- SUMMARY CARDS -->
+            <div class="cards">
+                <div class="card total">
+                    <h3>Balanță Totală</h3>
+                    <p class="amount">{{ "%.2f"|format(balancie) }} RON</p>
+                    <p class="transactions">{{ total }} tranzacții</p>
+                </div>
+                <div class="card income">
+                    <h3>Venituri</h3>
+                    <p class="amount">{{ "%.2f"|format(incomerii) }} RON</p>
+                    <i class="icon fas fa-arrow-up"></i>
+                </div>
+                <div class="card expense">
+                    <h3>Cheltuieli</h3>
+                    <p class="amount">{{ "%.2f"|format(expenses) }} RON</p>
+                    <i class="icon fas fa-arrow-down"></i>
+                </div>
+            </div>
+
+            <!-- ADD TRANSACTION FORM -->
+            <div class="add-transaction">
+                <h3><i class="fas fa-plus-circle"></i> Adaugă tranzacție</h3>
+                <form method="POST" action="/add">
+                    <div class="form-group">
+                        <label>Tip tranzacție</label>
+                        <div class="toggle-buttons">
+                            <button type="button" class="toggle-btn active" onclick="setType('income')">Venit</button>
+                            <button type="button" class="toggle-btn" onclick="setType('expense')">Cheltuială</button>
+                        </div>
+                        <input type="hidden" id="type" name="type" value="income">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount">Suma (RON)</label>
+                        <input type="number" id="amount" name="amount" step="0.01" min="0" placeholder="0.00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Categorie</label>
+                        <select id="category" name="category" required>
+                            <option value="">Selectează o categorie</option>
+                            <option value="Salariu">Salariu</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Investiții">Investiții</option>
+                            <option value="Mâncare">Mâncare</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Utilități">Utilități</option>
+                            <option value="Divertisment">Divertisment</option>
+                            <option value="Altele">Altele</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Descriere (opțional)</label>
+                        <input type="text" id="description" name="description" placeholder="Ex: Salariu luna martie">
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-check"></i> Adaugă tranzacția
+                    </button>
+                </form>
+            </div>
+
+            <!-- RECENT TRANSACTIONS -->
+            <div class="recent-transactions">
+                <h3><i class="fas fa-history"></i> Tranzacții recente</h3>
+                {% if transactions %}
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Categorie</th>
+                                <th>Descriere</th>
+                                <th>Tip</th>
+                                <th>Suma</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for t in transactions|reverse %}
+                            <tr>
+                                <td>{{ t.date[:10] }}</td>
+                                <td><span class="category-badge">{{ t.category }}</span></td>
+                                <td>{{ t.description or '-' }}</td>
+                                <td>
+                                    <span class="type-badge {{ t.type }}">
+                                        {{ 'Venit' if t.type == 'income' else 'Cheltuială' }}
+                                    </span>
+                                </td>
+                                <td class="amount {{ t.type }}">
+                                    {{ '+' if t.type == 'income' else '-' }}{{ "%.2f"|format(t.amount) }} RON
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="no-transactions">
+                    <i class="fas fa-receipt"></i>
+                    <p>Nu există tranzacții încă.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setType(type) {
+            document.getElementById('type').value = type;
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
