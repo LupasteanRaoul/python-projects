@@ -187,6 +187,20 @@
             color: #9a3412;
         }
         
+        .flask-warning {
+            background: #fee2e2;
+            border: 2px solid #fca5a5;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #991b1b;
+        }
+        
+        .flask-warning i {
+            margin-right: 8px;
+        }
+        
         footer {
             text-align: center;
             color: white;
@@ -224,7 +238,7 @@
         </header>
         
         <div class="projects-grid">
-            <!-- 1. BUDGET TRACKER -->
+            <!-- 1. BUDGET TRACKER - FIXAT -->
             <div class="project-card">
                 <div class="project-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                     <h2 class="project-title"><i class="fas fa-wallet"></i> Budget Tracker Web</h2>
@@ -249,17 +263,20 @@
                     </div>
                     
                     <div class="project-links">
-                        <a href="budget-tracker-web/" class="btn btn-live">
-                            <i class="fas fa-external-link-alt"></i> View Project
-                        </a>
+                        <!-- BUTON FIXAT - merge direct la Render -->
                         <a href="https://budget-tracker-web.onrender.com" 
-                           class="btn btn-code" target="_blank">
+                           class="btn btn-live" target="_blank">
                            <i class="fas fa-rocket"></i> Live Demo
+                        </a>
+                        <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/budget-tracker-web" 
+                           class="btn btn-code" target="_blank">
+                           <i class="fab fa-github"></i> View Code
                         </a>
                     </div>
                     
-                    <div class="flask-note">
-                        <strong>Note:</strong> Full application requires Flask. Live demo hosted on Render.com
+                    <div class="flask-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Flask Application:</strong> Requires Python server. Live demo deployed on Render.com
                     </div>
                 </div>
             </div>
@@ -287,7 +304,7 @@
                     </div>
                     
                     <div class="project-links">
-                        <a href="hash-table/" class="btn btn-live">
+                        <a href="./hash-table/" class="btn btn-live" target="_blank">
                             <i class="fas fa-external-link-alt"></i> Live Demo
                         </a>
                         <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/hash-table" 
@@ -314,15 +331,14 @@
                     </p>
                     
                     <div class="tech-stack">
-                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">JavaScript</span>
                         <span class="tech-tag">HTML</span>
                         <span class="tech-tag">CSS</span>
-                        <span class="tech-tag">JavaScript</span>
                         <span class="tech-tag">Validation</span>
                     </div>
                     
                     <div class="project-links">
-                        <a href="isbn-validator/" class="btn btn-live">
+                        <a href="./isbn-validator/" class="btn btn-live" target="_blank">
                             <i class="fas fa-external-link-alt"></i> Live Demo
                         </a>
                         <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/isbn-validator" 
@@ -349,14 +365,14 @@
                     </p>
                     
                     <div class="tech-stack">
-                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">JavaScript</span>
                         <span class="tech-tag">Geometry</span>
                         <span class="tech-tag">HTML5 Canvas</span>
-                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Mathematics</span>
                     </div>
                     
                     <div class="project-links">
-                        <a href="polygon-calculator/" class="btn btn-live">
+                        <a href="./polygon-calculator/" class="btn btn-live" target="_blank">
                             <i class="fas fa-external-link-alt"></i> Live Demo
                         </a>
                         <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/polygon-calculator" 
@@ -367,7 +383,7 @@
                 </div>
             </div>
             
-            <!-- 5. QUICKSORT VISUALIZER -->
+            <!-- 5. QUICKSORT VISUALIZER - FIXAT -->
             <div class="project-card">
                 <div class="project-header" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
                     <h2 class="project-title"><i class="fas fa-sort-amount-down"></i> Quicksort Visualizer</h2>
@@ -392,8 +408,10 @@
                     </div>
                     
                     <div class="project-links">
-                        <a href="quicksort-visualizer/" class="btn btn-live">
-                            <i class="fas fa-external-link-alt"></i> View Project
+                        <!-- BUTON FIXAT - merge direct la Render -->
+                        <a href="https://quicksort-visualizer.onrender.com" 
+                           class="btn btn-live" target="_blank">
+                           <i class="fas fa-rocket"></i> Live Demo
                         </a>
                         <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/quicksort-visualizer" 
                            class="btn btn-code" target="_blank">
@@ -401,8 +419,9 @@
                         </a>
                     </div>
                     
-                    <div class="flask-note">
-                        <strong>Flask Application:</strong> Requires Python to run locally: <code>python app.py</code>
+                    <div class="flask-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Flask Application:</strong> Requires Python server. Live demo deployed on Render.com
                     </div>
                 </div>
             </div>
@@ -430,8 +449,8 @@
                     </div>
                     
                     <div class="project-links">
-                        <a href="rpg-game-final/" class="btn btn-live">
-                            <i class="fas fa-external-link-alt"></i> View Project
+                        <a href="./rpg-game-final/" class="btn btn-live" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
                         </a>
                         <a href="https://github.com/LupasteanRaoul/python-projects/tree/main/rpg-game-final" 
                            class="btn btn-code" target="_blank">
@@ -447,6 +466,10 @@
                 <a href="https://github.com/LupasteanRaoul/python-projects" 
                    style="color: white; text-decoration: underline;" target="_blank">
                    View on GitHub
+                </a> |
+                <a href="./index.html" 
+                   style="color: white; text-decoration: underline;">
+                   View Modern Version
                 </a>
             </p>
             <p style="margin-top: 10px; font-size: 0.9rem;">
@@ -454,5 +477,23 @@
             </p>
         </footer>
     </div>
+
+    <script>
+        // Adăugăm un mesaj de verificare în consolă
+        console.log('✅ Portfolio loaded successfully!');
+        console.log('📊 Flask projects fixed to point to Render.com');
+        
+        // Verifică dacă proiectele Flask sunt accesibile
+        const flaskProjects = [
+            { name: 'Budget Tracker', url: 'https://budget-tracker-web.onrender.com' },
+            { name: 'Quicksort Visualizer', url: 'https://quicksort-visualizer.onrender.com' }
+        ];
+        
+        // Log pentru debugging
+        console.log('🔗 Flask Projects URLs:');
+        flaskProjects.forEach(project => {
+            console.log(`  • ${project.name}: ${project.url}`);
+        });
+    </script>
 </body>
 </html>
